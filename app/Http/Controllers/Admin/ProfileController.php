@@ -2,8 +2,9 @@
 namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
 use App\Profile;
+use App\Prhistory;
+use Carbon\Carbon;
 
 class ProfileController extends Controller
 {
@@ -41,8 +42,15 @@ class ProfileController extends Controller
         $this->validate($request, Profile::$rules);
         $profile = Profile::find($request->id);
         $profile_form = $request->all();
+        
         unset($profile_form['_token']);
         $profile->fill($profile_form)->save();
+        
+        $prhistory = new Prhistory;
+        $prhistory->profile_id = $profile->id;
+        $prhistory->edited_at = Carbon::now();
+        $prhistory->save();
+        
         return redirect('admin/profile/edit');
     }
 }
