@@ -28,6 +28,19 @@ class ProfileController extends Controller
         return redirect('admin/profile/create');
     }
     
+    public function index(Request $request)
+    {
+        $cond_title = $request->cond_title;
+        if ($cond_title != '') {
+            // 検索されたら検索結果を取得する
+            $posts = Profile::where('name', $cond_title)->get();
+        } else {
+            // それ以外はすべてのニュースを取得する
+            $posts = Profile::all();
+        }
+        return view('admin.profile.index', ['posts' => $posts, 'cond_title' => $cond_title]);
+    }
+    
     public function edit(Request $request)
     {
         $profile = Profile::find($request->id);
@@ -51,6 +64,15 @@ class ProfileController extends Controller
         $prhistory->edited_at = Carbon::now();
         $prhistory->save();
         
-        return redirect('admin/profile/edit');
+        return redirect('admin/profile/');
     }
+    
+        public function delete(Request $request)
+    {
+        // 該当するProfile Modelを取得
+        $profile = Profile::find($request->id);
+        // 削除する
+        $profile->delete();
+        return redirect('admin/profile/');
+    }  
 }

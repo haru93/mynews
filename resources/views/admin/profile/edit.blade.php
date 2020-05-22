@@ -21,10 +21,15 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-md-2" for="gender">性別</label>
-                        <div class="col-md-10">
-                            <input type="text" class="form-control" name="gender" value="{{ $profiles_form->gender }}">
-                        </div>
+                        <label class="col-md-2" for="title">性別</label>
+                            <div class="col-md-10">
+                                <div class="radio">
+                                    <label for="radios-male"><input type="radio" name="gender" id="radios-male" value="male" {{ ($profiles_form->gender) === "male" ? "checked" : NULL }} />男性</label>
+                                </div>
+                                <div class="radio">
+                                    <label for="radios-female"><input type="radio" name="gender" id="radios-female" value="female" {{ ($profiles_form->gender) === "female" ? "checked" : NULL }} />女性</label>
+                                </div>
+                            </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-2" for="hobby">趣味</label>
